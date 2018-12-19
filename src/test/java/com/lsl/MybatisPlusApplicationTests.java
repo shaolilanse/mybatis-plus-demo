@@ -1,7 +1,10 @@
 package com.lsl;
 
-import com.lsl.dao.JobMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lsl.entity.Job;
+import com.lsl.service.IJobService;
+import com.lsl.service.IOrgEventService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +19,22 @@ import java.util.List;
 public class MybatisPlusApplicationTests {
 
     @Autowired
-    private JobMapper jobMapper;
+    private IJobService jobService;
+    @Autowired
+    private IOrgEventService orgEventService;
 
     @Test
     public void contextLoads() {
-//        List<Job> jobList = jobMapper.selectList(null);
-//        jobList.forEach(System.out::println);
-        Job job = jobMapper.getJob("TESTJOB01");
-        System.out.println(job);
+        List<Job> jobList = jobService.list(null);
+        jobList.forEach(System.out::println);
+//            Job job = jobMapper.getJob("TESTJOB01");
+//            System.out.println(job);
+         Page page = new Page(1, 10);
+        IPage<Job> jobIPage = jobService.selectJobPage(page, 1);
+        System.out.println(jobIPage.getTotal());
+
+//        jobService.removeById(1221l);
+
     }
 
 
